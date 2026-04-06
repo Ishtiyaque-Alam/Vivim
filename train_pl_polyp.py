@@ -1,6 +1,6 @@
 from typing import Optional
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '3'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 import numpy as np
 import copy
 from pytorch_lightning.utilities.types import EVAL_DATALOADERS, STEP_OUTPUT
@@ -65,7 +65,7 @@ class CoolSystem(pl.LightningModule):
 
         self.params = hparams
         self.epochs = self.params.epochs
-        self.save_path='/home/yijun/project/ultra/save_images_polyp2'
+        self.save_path='/kaggle/working/save_images_polyp2'
         self.data_root=self.params.data_root
         self.initlr = self.params.initlr
 
@@ -285,15 +285,15 @@ def main():
     #128: 32-0.0005
     args={
     'epochs': 200,  #datasetsw
-    'data_root':'./polyp/',
+    'data_root':'.kaggle/working/polyp/',
     
-    'train_bs':8,
+    'train_bs':4,   # T4 16GB: safe at 4, try 6 if no OOM
     'test_bs':1,
     'val_bs':1, 
     'initlr':1e-4,
     'weight_decay':0.01,
     'crop_size':256,
-    'num_workers':8,
+    'num_workers':2, # T4 in cloud envs typically has 2-4 CPU cores
     'shift_length':32,
     'val_aug':False,
     'with_edge':False,
@@ -327,7 +327,7 @@ def main():
         max_epochs=hparams.epochs,
         accelerator='gpu',
         devices=1,
-        precision=32,
+        precision="16-mixed", # fp16 halves activation memory; T4 has strong fp16 tensor cores
         logger=logger,
         strategy="auto",
         enable_progress_bar=True,
