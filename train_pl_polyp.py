@@ -65,7 +65,8 @@ class CoolSystem(pl.LightningModule):
 
         self.params = hparams
         self.epochs = self.params.epochs
-        self.save_path='/kaggle/working/save_images_polyp2'
+        self.save_path='./save_images_polyp2'
+        os.makedirs(self.save_path, exist_ok=True)
         self.data_root=self.params.data_root
         self.initlr = self.params.initlr
 
@@ -285,9 +286,9 @@ def main():
     #128: 32-0.0005
     args={
     'epochs': 200,  #datasetsw
-    'data_root':'/kaggle/input/datasets/sajidalam9/vtus-dataset/VTUS',
+    'data_root':'./VTUS',
     
-    'train_bs':4,   # T4 16GB: safe at 4, try 6 if no OOM
+    'train_bs':8,
     'test_bs':1,
     'val_bs':1, 
     'initlr':1e-4,

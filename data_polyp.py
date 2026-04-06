@@ -159,17 +159,15 @@ def convert_mask(mask, max_obj):
 class SalObjDataset(data.Dataset):
     def __init__(self, root, trainsize, clip_len=5):
         self.trainsize = trainsize
-        image_root = os.path.join(root, "Train")
+        image_root = os.path.join(root, "train", "images")
+        mask_root = os.path.join(root, "train", "masks")
         vid_list = os.listdir(image_root)
         self.clip_len = clip_len
         self.images = []
         self.gts = []
         for vid in vid_list:
-            vid_path = os.path.join(image_root, vid, "Frame")
-            if 'Kvasir' not in vid:
-                frms = sorted(os.listdir(vid_path),key=lambda x: int(x[:-4]))
-            else:
-                frms = sorted(os.listdir(vid_path))
+            vid_path = os.path.join(image_root, vid)
+            frms = sorted(os.listdir(vid_path), key=lambda x: int(x[:-4]))
             for idx in range(len(frms)):
                 clip = []
                 for ii in range(-clip_len//2+1, clip_len//2+1):
@@ -181,7 +179,7 @@ class SalObjDataset(data.Dataset):
                         pick_idx = 0
                     clip.append(os.path.join(vid_path, frms[pick_idx]))
                 self.images.append(clip)
-                self.gts.append([x.replace("Frame", "GT").replace("jpg","png") for x in clip])
+                self.gts.append([os.path.join(mask_root, vid, os.path.basename(x).replace(".jpg", ".png")) for x in clip])
 
         self.size = len(self.images)
         print(self.size)
@@ -278,17 +276,16 @@ from operator import itemgetter
 class SalObjTestDataset(data.Dataset):
     def __init__(self, root, trainsize, clip_len=5):
         self.trainsize = trainsize
-        image_root = os.path.join('./polyp/CVC-ClinicDB-612-Test', "Frame")
+        image_root = os.path.join(root, "test", "images")
+        mask_root = os.path.join(root, "test", "masks")
         vid_list = os.listdir(image_root)
-        vid_list = sorted(vid_list,key=lambda x: int(x))
-        self.clip_len=clip_len
+        vid_list = sorted(vid_list, key=lambda x: int(x))
+        self.clip_len = clip_len
         self.images = []
         self.gts = []
-        # print(vid_list)
         for vid in vid_list:
             vid_path = os.path.join(image_root, vid)
-            frms = sorted(os.listdir(vid_path),key=lambda x: int(x[:-4]))
-            # print(frms)
+            frms = sorted(os.listdir(vid_path), key=lambda x: int(x[:-4]))
             for idx in range(len(frms)):
                 clip = []
                 for ii in range(-clip_len//2+1, clip_len//2+1):
@@ -300,7 +297,7 @@ class SalObjTestDataset(data.Dataset):
                         pick_idx = 0
                     clip.append(os.path.join(vid_path, frms[pick_idx]))
                 self.images.append(clip)
-                self.gts.append([x.replace("Frame", "GT").replace("jpg","png") for x in clip])
+                self.gts.append([os.path.join(mask_root, vid, os.path.basename(x).replace(".jpg", ".png")) for x in clip])
 
         self.size = len(self.images)
         print(self.size)
