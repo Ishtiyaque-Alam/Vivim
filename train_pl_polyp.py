@@ -285,7 +285,7 @@ def main():
     #128: 32-0.0005
     args={
     'epochs': 200,  #datasetsw
-    'data_root':'.kaggle/working/polyp/',
+    'data_root':'/kaggle/input/datasets/sajidalam9/vtus-dataset/VTUS',
     
     'train_bs':4,   # T4 16GB: safe at 4, try 6 if no OOM
     'test_bs':1,
