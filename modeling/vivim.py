@@ -13,6 +13,10 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'mamba'))
+
 import torch.nn as nn
 import torch 
 from functools import partial
