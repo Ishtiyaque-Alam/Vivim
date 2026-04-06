@@ -167,7 +167,7 @@ class SalObjDataset(data.Dataset):
         self.gts = []
         for vid in vid_list:
             vid_path = os.path.join(image_root, vid)
-            frms = sorted(os.listdir(vid_path), key=lambda x: int(x[:-4]))
+            frms = sorted([f for f in os.listdir(vid_path) if not f.startswith('.')], key=lambda x: int(x[:-4]))
             for idx in range(len(frms)):
                 clip = []
                 for ii in range(-clip_len//2+1, clip_len//2+1):
@@ -285,7 +285,7 @@ class SalObjTestDataset(data.Dataset):
         self.gts = []
         for vid in vid_list:
             vid_path = os.path.join(image_root, vid)
-            frms = sorted(os.listdir(vid_path), key=lambda x: int(x[:-4]))
+            frms = sorted([f for f in os.listdir(vid_path) if not f.startswith('.')], key=lambda x: int(x[:-4]))
             for idx in range(len(frms)):
                 clip = []
                 for ii in range(-clip_len//2+1, clip_len//2+1):
