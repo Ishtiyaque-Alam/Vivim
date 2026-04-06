@@ -161,7 +161,7 @@ class SalObjDataset(data.Dataset):
         self.trainsize = trainsize
         image_root = os.path.join(root, "train", "images")
         mask_root = os.path.join(root, "train", "masks")
-        vid_list = os.listdir(image_root)
+        vid_list = [v for v in os.listdir(image_root) if not v.startswith('.')]
         self.clip_len = clip_len
         self.images = []
         self.gts = []
@@ -278,7 +278,7 @@ class SalObjTestDataset(data.Dataset):
         self.trainsize = trainsize
         image_root = os.path.join(root, "test", "images")
         mask_root = os.path.join(root, "test", "masks")
-        vid_list = os.listdir(image_root)
+        vid_list = [v for v in os.listdir(image_root) if not v.startswith('.') and v.isdigit()]
         vid_list = sorted(vid_list, key=lambda x: int(x))
         self.clip_len = clip_len
         self.images = []
