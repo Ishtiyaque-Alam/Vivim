@@ -286,7 +286,7 @@ def main():
     #128: 32-0.0005
     args={
     'epochs': 200,  #datasetsw
-    'data_root':'./VTUS',
+    'data_root':'/content/Vivim/VTUS',
     
     'train_bs':8,
     'test_bs':1,
