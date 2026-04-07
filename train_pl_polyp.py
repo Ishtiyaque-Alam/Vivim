@@ -286,7 +286,7 @@ def main():
     #128: 32-0.0005
     args={
     'epochs': 200,  #datasetsw
-    'data_root':'/content/Vivim/VTUS',
+    'data_root':'/kaggle/input/datasets/sajidalam9/vtus-dataset/VTUS',
     
     'train_bs':8,
     'test_bs':1,
