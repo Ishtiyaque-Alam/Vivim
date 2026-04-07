@@ -322,12 +322,14 @@ def main():
     save_last=True
     )
     lr_monitor_callback = LearningRateMonitor(logging_interval='step')
+    n_gpus = torch.cuda.device_count()
+    strategy = "ddp" if n_gpus > 1 else "auto"
     trainer = pl.Trainer(
         check_val_every_n_epoch=5,
         max_epochs=hparams.epochs,
         accelerator='gpu',
-        devices=2,
-        strategy="ddp",
+        devices=n_gpus,
+        strategy=strategy,
         precision="16-mixed",
         logger=logger,
         enable_progress_bar=True,
