@@ -372,7 +372,8 @@ def get_trainloader(image_root, batchsize, trainsize, clip_len=5, shuffle=True, 
                                   batch_size=batchsize,
                                   shuffle=shuffle,
                                   num_workers=num_workers,
-                                  pin_memory=pin_memory)
+                                  pin_memory=pin_memory,
+                                  persistent_workers=True)
     return data_loader
 
 def get_testloader(image_root, batchsize, trainsize, clip_len=5, shuffle=False, num_workers=12, pin_memory=True):
@@ -382,5 +383,6 @@ def get_testloader(image_root, batchsize, trainsize, clip_len=5, shuffle=False, 
                                   batch_size=batchsize,
                                   shuffle=shuffle,
                                   num_workers=num_workers,
-                                  pin_memory=pin_memory)
+                                  pin_memory=pin_memory,
+                                  persistent_workers=True)
     return data_loader
