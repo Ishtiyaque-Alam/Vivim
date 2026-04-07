@@ -96,8 +96,10 @@ class CoolSystem(pl.LightningModule):
 
         self.model = Vivim(with_edge=self.with_edge)
 
-
         self.save_hyperparameters()
+
+    def configure_model(self):
+        self.model = torch.compile(self.model)
         
 
     def configure_optimizers(self):
@@ -311,7 +313,6 @@ def main():
     hparams = Namespace(**args)
 
     model = CoolSystem(hparams)
-    model = torch.compile(model)
 
     checkpoint_callback = ModelCheckpoint(
     monitor='Dice',
