@@ -285,10 +285,10 @@ def main():
         resume_checkpoint_path =None
     #128: 32-0.0005
     args={
-    'epochs': 200,  #datasetsw
+    'epochs': 100,  #datasetsw
     'data_root':'/kaggle/input/datasets/sajidalam9/vtus-dataset/VTUS',
     
-    'train_bs':8,
+    'train_bs':4,
     'test_bs':1,
     'val_bs':1, 
     'initlr':1e-4,
