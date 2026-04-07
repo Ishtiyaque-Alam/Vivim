@@ -288,10 +288,10 @@ def main():
     'epochs': 100,  #datasetsw
     'data_root':'/kaggle/input/datasets/sajidalam9/vtus-dataset/VTUS',
     
-    'train_bs':4,
+    'train_bs':6,
     'test_bs':1,
     'val_bs':1, 
-    'initlr':1e-4,
+    'initlr':7.5e-5,  # scaled from 1e-4 for effective global bs=12 (vs author's 16)
     'weight_decay':0.01,
     'crop_size':256,
     'num_workers':2, # T4 in cloud envs typically has 2-4 CPU cores
@@ -327,10 +327,11 @@ def main():
         check_val_every_n_epoch=5,
         max_epochs=hparams.epochs,
         accelerator='gpu',
-        devices=1,
+        devices=2,
+        strategy="ddp",
         precision="16-mixed", # fp16 halves activation memory; T4 has strong fp16 tensor cores
+        accumulate_grad_batches=2,  # bs=6 x 2 accum x 2 GPUs = effective global bs=24
         logger=logger,
-        strategy="auto",
         enable_progress_bar=True,
         log_every_n_steps=5,
         callbacks = [checkpoint_callback,lr_monitor_callback]
